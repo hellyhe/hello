@@ -28,12 +28,12 @@ pipeline {
           steps {
             echo 'Deploying....'
             archive 'target/*.jar'
-            sh 'sudo /data/jenkins/deploy.sh'
+            sh 'sudo ./deploy.sh'
           }
         }
         stage('msg') {
           steps {
-            echo 'start deploy'
+            echo 'start archive war'
             archiveArtifacts '*.war'
           }
         }
