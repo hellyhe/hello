@@ -40,4 +40,4 @@ echo ${TOMCAT_PID}
 
 sleep 4
 echo "tomcat deploy sessuce"
-[root@localhost jenkins]# 
+
