@@ -21,6 +21,41 @@ For a multibranch project corresponding to some kind of change request, this wil
 CHANGE_TARGET
 For a multibranch project corresponding to some kind of change request, this will be set to the target or base branch to which the change could be merged, if supported; else unset.
   
+    pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+                archiveArtifacts artifacts: '*', fingerprint: true 
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                /* 测试失败时，`make check` 返回非 0 值
+                *  尽管如此，使用 `true` 使 Pipeline 继续
+                */
+                //sh 'make check || true' 
+                //junit '**/target/*.xml'
+            }
+        }
+        stage('Deploy') {
+             when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' // 判断是否发生测试失败
+              }
+            }
+            steps {
+                echo 'Deploying....'
+                sh 'tar -czf target.tar.gz *'
+            }
+        }
+    }
+}
+    
+    
   </div>
 </body>
 </html>
