@@ -1,25 +1,43 @@
 pipeline {
-    agent any
-
-    stages {
+  agent any
+  stages {
+    stage('Build') {
+      parallel {
         stage('Build') {
-            steps {
-            // Run the maven build
-             echo "start build"
-             sh "mvn clean package"
-           }
+          steps {
+            echo 'start build'
+            sh 'mvn clean package'
+          }
         }
-        stage('Deploy') {
-             when {
-              expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' // 判断是否发生测试失败
-              }
-            }
-            steps {
-                echo 'Deploying....'
-                archive 'target/*.jar'
-                sh 'sudo /data/jenkins/deploy.sh'
-            }
+        stage('') {
+          steps {
+            fingerprint '*.war'
+          }
         }
+      }
     }
+    stage('Deploy') {
+      parallel {
+        stage('Deploy') {
+          when {
+            expression {
+              currentBuild.result == null || currentBuild.result == 'SUCCESS' // 判断是否发生测试失败
+            }
+
+          }
+          steps {
+            echo 'Deploying....'
+            archive 'target/*.jar'
+            sh 'sudo /data/jenkins/deploy.sh'
+          }
+        }
+        stage('') {
+          steps {
+            echo 'start deploy'
+            archiveArtifacts '*.war'
+          }
+        }
+      }
+    }
+  }
 }
