@@ -34,7 +34,7 @@ pipeline {
         stage('msg') {
           steps {
             echo 'start archive war'
-            archiveArtifacts '*.war'
+            archiveArtifacts 'target/*.war'
           }
         }
       }
