@@ -28,7 +28,7 @@ pipeline {
           steps {
             echo 'Deploying....'
             archive 'target/*.jar'
-            sh 'sudo ./deploy.sh'
+            sh 'sudo sh ./deploy.sh'
           }
         }
         stage('msg') {
