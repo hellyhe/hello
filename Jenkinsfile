@@ -5,13 +5,9 @@ pipeline {
         stage('Build') {
             steps {
             // Run the maven build
-              if (isUnix()) {
-                echo "start build"
-                sh "mvn clean package"
-              } else {
-                echo 'not suppost.'
-              }
-            }
+             echo "start build"
+             sh "mvn clean package"
+           }
         }
         stage('Deploy') {
              when {
