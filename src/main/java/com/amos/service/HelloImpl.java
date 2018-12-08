@@ -10,7 +10,8 @@ public class HelloImpl implements IHello{
 	
 	public String sayHi() {
 		
-		return "当前时间:"+new Date()+" msg:"+msg;
+		return "当前时间:"+new Date()+" msg:" + msg + "<br/>this is a test page.";
+		
 	}
 	
 }
