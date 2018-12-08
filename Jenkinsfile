@@ -9,7 +9,7 @@ pipeline {
             sh 'mvn clean package'
           }
         }
-        stage('') {
+        stage('record') {
           steps {
             fingerprint '*.war'
           }
@@ -31,7 +31,7 @@ pipeline {
             sh 'sudo /data/jenkins/deploy.sh'
           }
         }
-        stage('') {
+        stage('msg') {
           steps {
             echo 'start deploy'
             archiveArtifacts '*.war'
